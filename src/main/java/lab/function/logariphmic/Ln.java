@@ -19,7 +19,8 @@ public class Ln extends SeriesExpansionFunction {
         if (x.compareTo(ONE) == 0) {
             return ZERO;
         }
-        BigDecimal currentX = BigDecimal.ZERO, previousX;
+        BigDecimal currentX = BigDecimal.ZERO;
+        BigDecimal previousX;
         int i = 1;
         final BigDecimal PRECISION_SCALE = new BigDecimal("0.1").pow(precision.scale());
         final BigDecimal xModuleSubOne = x.subtract(ONE).abs();
@@ -33,8 +34,8 @@ public class Ln extends SeriesExpansionFunction {
                     )
                     .divide(BigDecimal.valueOf(i), precision.scale(), HALF_UP)
                 );
-                i++;
                 delta = (previousX.subtract(currentX)).abs();
+                i++;
             } while (PRECISION_SCALE.compareTo(delta) < 0 && i < MAX_ITERATIONS);
             return currentX.add(previousX).divide(BigDecimal.valueOf(2), HALF_EVEN);
         }
@@ -47,8 +48,8 @@ public class Ln extends SeriesExpansionFunction {
                 )
                 .divide(BigDecimal.valueOf(i), precision.scale(), HALF_UP)
             );
-            i++;
             delta = (previousX.subtract(currentX)).abs();
+            i++;
         } while (PRECISION_SCALE.compareTo(delta) < 0 && i < MAX_ITERATIONS);
         currentX = currentX.add(calculate(x.subtract(ONE), precision));
         return currentX.setScale(precision.scale(), HALF_EVEN);

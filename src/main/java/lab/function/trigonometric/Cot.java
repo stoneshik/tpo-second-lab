@@ -1,4 +1,4 @@
-package lab.function.logariphmic;
+package lab.function.trigonometric;
 
 import lab.function.SeriesExpansionFunction;
 
@@ -7,25 +7,24 @@ import java.math.BigDecimal;
 import static java.math.BigDecimal.ZERO;
 import static java.math.RoundingMode.HALF_EVEN;
 
-public class Log extends SeriesExpansionFunction {
-    private final Ln ln;
-    private final int base;
+public class Cot extends SeriesExpansionFunction {
+    private final Sin sin;
+    private final Cos cos;
 
-    public Log(Ln ln, int base) {
-        this.ln = ln;
-        this.base = base;
+    public Cot() {
+        this.sin = new Sin();
+        this.cos = new Cos();
     }
 
     @Override
     public BigDecimal calculate(BigDecimal x, BigDecimal precision) throws ArithmeticException {
         checkArgumentsForCalculation(x, precision);
-        if (x.compareTo(ZERO) <= 0) {
+        BigDecimal sinValue = sin.calculate(x, precision);
+        BigDecimal cosValue = cos.calculate(x, precision);
+        if (sinValue.compareTo(ZERO) == 0) {
             throw new ArithmeticException(String.format("Function for x value %s doesn't exist", x));
         }
-        BigDecimal result = ln.calculate(x, precision).divide(
-                ln.calculate(new BigDecimal(base), precision),
-                HALF_EVEN
-        );
+        BigDecimal result = cosValue.divide(sinValue, HALF_EVEN);
         return result.setScale(precision.scale(), HALF_EVEN);
     }
 }

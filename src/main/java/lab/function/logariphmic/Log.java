@@ -11,8 +11,8 @@ public class Log extends SeriesExpansionFunction {
     private final Ln ln;
     private final int base;
 
-    public Log(Ln ln, int base) {
-        this.ln = ln;
+    public Log(int base) {
+        this.ln = new Ln();
         this.base = base;
     }
 

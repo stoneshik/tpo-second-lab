@@ -16,6 +16,11 @@ public class Log extends SeriesExpansionFunction {
         this.base = base;
     }
 
+    public Log(Ln ln, int base) {
+        this.ln = ln;
+        this.base = base;
+    }
+
     @Override
     public BigDecimal calculate(BigDecimal x, BigDecimal precision) throws ArithmeticException {
         checkArgumentsForCalculation(x, precision);

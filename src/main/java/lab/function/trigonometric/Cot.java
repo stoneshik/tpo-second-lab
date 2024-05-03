@@ -16,6 +16,11 @@ public class Cot extends SeriesExpansionFunction {
         this.cos = new Cos();
     }
 
+    public Cot(Sin sin, Cos cos) {
+        this.sin = sin;
+        this.cos = cos;
+    }
+
     @Override
     public BigDecimal calculate(BigDecimal x, BigDecimal precision) throws ArithmeticException {
         checkArgumentsForCalculation(x, precision);

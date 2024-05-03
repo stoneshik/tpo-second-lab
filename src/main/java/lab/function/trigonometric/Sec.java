@@ -14,6 +14,10 @@ public class Sec extends SeriesExpansionFunction {
         this.cos = new Cos();
     }
 
+    public Sec(Cos cos) {
+        this.cos = cos;
+    }
+
     @Override
     public BigDecimal calculate(BigDecimal x, BigDecimal precision) throws ArithmeticException {
         checkArgumentsForCalculation(x, precision);

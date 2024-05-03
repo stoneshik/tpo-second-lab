@@ -18,7 +18,10 @@ public class Cos extends SeriesExpansionFunction {
     @Override
     public BigDecimal calculate(BigDecimal x, BigDecimal precision) throws ArithmeticException {
         checkArgumentsForCalculation(x, precision);
-        final BigDecimal correctedX = x.remainder(BigDecimal.valueOf(Math.PI).multiply(new BigDecimal(2)));
+        final BigDecimal correctedX = x.remainder(
+            BigDecimal.valueOf(Math.PI)
+                    .multiply(BigDecimal.valueOf(2))
+        );
         if (correctedX.compareTo(ZERO) == 0) {
             return ONE;
         }

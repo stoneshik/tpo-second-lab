@@ -10,8 +10,10 @@ import static java.math.RoundingMode.HALF_EVEN;
 public class Sin extends SeriesExpansionFunction {
     @Override
     public BigDecimal calculate(BigDecimal x, BigDecimal precision) throws ArithmeticException {
-        final BigDecimal PI2 = BigDecimal.valueOf(Math.PI).multiply(BigDecimal.valueOf(2));
-        final BigDecimal PRECISION_SCALE = new BigDecimal("0.1").pow(precision.scale());
+        final BigDecimal PI2 = BigDecimal.valueOf(Math.PI)
+                .multiply(BigDecimal.valueOf(2));
+        final BigDecimal PRECISION_SCALE = BigDecimal.valueOf(0.1)
+                .pow(precision.scale());
         int i = 0;
         BigDecimal sum = new BigDecimal(0);
         BigDecimal sumPrevious;
@@ -29,9 +31,9 @@ public class Sin extends SeriesExpansionFunction {
             sumPrevious = sum;
             sum = sum.add(
                 BigDecimal.valueOf(1 - (i % 2) * 2)
-                .multiply(
-                    calculationAccumulator(x, 2 * i + 1)
-                )
+                    .multiply(
+                        calculationAccumulator(x, 2 * i + 1)
+                    )
             );
             delta = sumPrevious.subtract(sum).abs();
             i++;
@@ -42,7 +44,9 @@ public class Sin extends SeriesExpansionFunction {
     private BigDecimal calculationAccumulator(BigDecimal x, int n) {
         BigDecimal accumulator = new BigDecimal(1);
         for (int i = 1; i <= n; i++) {
-            accumulator = accumulator.multiply(x.divide(BigDecimal.valueOf(i), HALF_EVEN));
+            accumulator = accumulator.multiply(
+                x.divide(BigDecimal.valueOf(i), HALF_EVEN)
+            );
         }
         return accumulator;
     }

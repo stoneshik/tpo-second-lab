@@ -22,10 +22,11 @@ public class Log extends SeriesExpansionFunction {
         if (x.compareTo(ZERO) <= 0) {
             throw new ArithmeticException(String.format("Function for x value %s doesn't exist", x));
         }
-        BigDecimal result = ln.calculate(x, precision).divide(
+        BigDecimal result = ln.calculate(x, precision)
+            .divide(
                 ln.calculate(new BigDecimal(base), precision),
                 HALF_EVEN
-        );
+            );
         return result.setScale(precision.scale(), HALF_EVEN);
     }
 }

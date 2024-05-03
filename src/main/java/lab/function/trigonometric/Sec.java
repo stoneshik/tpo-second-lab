@@ -21,7 +21,7 @@ public class Sec extends SeriesExpansionFunction {
         if (cosValue.compareTo(ZERO) == 0) {
             throw new ArithmeticException(String.format("Function for x value %s doesn't exist", x));
         }
-        BigDecimal result = BigDecimal.valueOf(1).divide(cosValue, HALF_EVEN);
+        BigDecimal result = new BigDecimal("1.0").divide(cosValue, HALF_EVEN);
         return result.setScale(precision.scale(), HALF_EVEN);
     }
 }

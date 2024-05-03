@@ -18,17 +18,17 @@ public class Cos extends SeriesExpansionFunction {
     @Override
     public BigDecimal calculate(BigDecimal x, BigDecimal precision) throws ArithmeticException {
         checkArgumentsForCalculation(x, precision);
+        final BigDecimal PI = new BigDecimal(Math.PI);
         final BigDecimal correctedX = x.remainder(
-            BigDecimal.valueOf(Math.PI)
-                    .multiply(BigDecimal.valueOf(2))
+            PI.multiply(new BigDecimal("2.0"))
         );
         if (correctedX.compareTo(ZERO) == 0) {
             return ONE;
         }
         final BigDecimal result =
             sin.calculate(
-                BigDecimal.valueOf(Math.PI)
-                    .divide(new BigDecimal(2), HALF_EVEN)
+                PI
+                    .divide(new BigDecimal("2.0"), HALF_EVEN)
                     .subtract(correctedX),
                 precision
             );

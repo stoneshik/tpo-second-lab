@@ -34,7 +34,9 @@ public class FunctionSystem extends SeriesExpansionFunction {
     }
 
     public BigDecimal calculate(final BigDecimal x, final BigDecimal precision) {
-        BigDecimal correctedX = x.remainder(BigDecimal.valueOf(Math.PI).multiply(new BigDecimal(2)));
+        BigDecimal correctedX = x.remainder(
+            new BigDecimal(Math.PI).multiply(new BigDecimal(2))
+        );
         if (x.compareTo(ZERO) == 0) {
             return null;
         } else if (x.compareTo(ZERO) <= 0) {

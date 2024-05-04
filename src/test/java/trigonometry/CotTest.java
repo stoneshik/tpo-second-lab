@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
+import static java.math.RoundingMode.HALF_EVEN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -130,6 +131,16 @@ public class CotTest {
         assertEquals(
             expected,
             cot.calculate(ONE, PRECISION)
+        );
+    }
+
+    @Test
+    public void checkCalculationForPiDividedByTwo() {
+        Cos cos = new Cos();
+        BigDecimal arg = PI.divide(new BigDecimal("2.0"), HALF_EVEN);
+        assertEquals(
+            ZERO.setScale(PRECISION.scale(), HALF_EVEN),
+            cos.calculate(arg, PRECISION)
         );
     }
 

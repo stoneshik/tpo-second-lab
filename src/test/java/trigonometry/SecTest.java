@@ -55,9 +55,9 @@ public class SecTest {
             new BigDecimal("0.28366218")
         );
         Sec sec = new Sec(mockCos);
-        BigDecimal expectedResult = new BigDecimal("3.5000");
+        BigDecimal expectedResult = new BigDecimal("3.5");
         assertEquals(
-            expectedResult,
+            expectedResult.setScale(PRECISION.scale(), HALF_EVEN),
             sec.calculate(arg, PRECISION)
         );
     }
@@ -65,9 +65,8 @@ public class SecTest {
     @Test
     public void checkCalculationForZero() {
         Sec sec = new Sec();
-        BigDecimal expected = new BigDecimal("1.0000");
         assertEquals(
-            expected,
+            ONE.setScale(PRECISION.scale(), HALF_EVEN),
             sec.calculate(ZERO, PRECISION)
         );
     }
@@ -75,9 +74,9 @@ public class SecTest {
     @Test
     public void checkCalculationForOne() {
         Sec sec = new Sec();
-        BigDecimal expected = new BigDecimal("1.9000");
+        BigDecimal expected = new BigDecimal("1.9");
         assertEquals(
-            expected,
+            expected.setScale(PRECISION.scale(), HALF_EVEN),
             sec.calculate(ONE, PRECISION)
         );
     }
@@ -95,14 +94,14 @@ public class SecTest {
     @Test
     public void checkCalculationForPeriod() {
         Sec sec = new Sec();
-        BigDecimal expected = new BigDecimal("-2.4000");
+        BigDecimal expected = new BigDecimal("-2.4");
         BigDecimal x = new BigDecimal("-2.0");
         assertEquals(
-            expected,
+            expected.setScale(PRECISION.scale(), HALF_EVEN),
             sec.calculate(x, PRECISION)
         );
         assertEquals(
-            expected,
+            expected.setScale(PRECISION.scale(), HALF_EVEN),
             sec.calculate(x.add(new BigDecimal("2.0").multiply(PI)), PRECISION)
         );
     }

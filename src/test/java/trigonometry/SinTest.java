@@ -45,12 +45,17 @@ public class SinTest {
     }
 
     @Test
-    public void checkCalculationForPeriodic() {
+    public void checkCalculationForPeriod() {
         Sin sin = new Sin();
-        BigDecimal expected = new BigDecimal("0.0972");
+        BigDecimal expected = new BigDecimal("-0.1411");
+        BigDecimal x = new BigDecimal("-3.0");
         assertEquals(
             expected,
-            sin.calculate(new BigDecimal("-113.0"), PRECISION)
+            sin.calculate(x, PRECISION)
+        );
+        assertEquals(
+            expected,
+            sin.calculate(x.add(new BigDecimal("2.0").multiply(PI)), PRECISION)
         );
     }
 }

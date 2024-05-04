@@ -28,7 +28,7 @@ public class FunctionSystemTest {
         FunctionSystem system = new FunctionSystem();
         assertThrows(
             NullPointerException.class,
-            () -> system.calculate(new BigDecimal("-2.0"), null)
+            () -> system.calculate(new BigDecimal("-1.0"), null)
         );
     }
 
@@ -38,7 +38,7 @@ public class FunctionSystemTest {
         FunctionSystem system = new FunctionSystem();
         assertThrows(
             ArithmeticException.class,
-            () -> system.calculate(new BigDecimal("-2.0"), precision)
+            () -> system.calculate(new BigDecimal("-1.0"), precision)
         );
     }
 
@@ -58,31 +58,31 @@ public class FunctionSystemTest {
     }
 
     @Test
-    public void checkCalculateForPositiveValue() {
+    public void checkCalculateForNegativeValue() {
         FunctionSystem system = new FunctionSystem();
-        BigDecimal expected = new BigDecimal("-0.21196011");
+        BigDecimal expected = new BigDecimal("-144.21545632");
         assertEquals(
             expected,
-            system.calculate(new BigDecimal("5.0"), PRECISION)
+            system.calculate(new BigDecimal("-2.0"), PRECISION)
         );
     }
 
     @Test
-    public void checkCalculateForNegativeValue() {
+    public void checkCalculateForPositiveValue() {
         FunctionSystem system = new FunctionSystem();
-        BigDecimal expected = new BigDecimal("1656.35228780");
+        BigDecimal expected = new BigDecimal("-0.58680724");
         assertEquals(
             expected,
-            system.calculate(new BigDecimal("-5.0"), PRECISION)
+            system.calculate(new BigDecimal("2.0"), PRECISION)
         );
     }
 
     private static Stream<Arguments> illegalPrecisions() {
         return Stream.of(
-            Arguments.of(BigDecimal.valueOf(1)),
+            Arguments.of(BigDecimal.valueOf(-0.01)),
             Arguments.of(BigDecimal.valueOf(0)),
-            Arguments.of(BigDecimal.valueOf(1.01)),
-            Arguments.of(BigDecimal.valueOf(-0.01))
+            Arguments.of(BigDecimal.valueOf(1)),
+            Arguments.of(BigDecimal.valueOf(1.01))
         );
     }
 }

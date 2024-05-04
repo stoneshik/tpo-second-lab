@@ -30,7 +30,9 @@ public class CosTest {
         Cos cos = new Cos(spySin);
         cos.calculate(new BigDecimal(6), new BigDecimal("0.001"));
         verify(
-            spySin, atLeastOnce()).calculate(any(BigDecimal.class),
+            spySin, atLeastOnce()
+        ).calculate(
+            any(BigDecimal.class),
             any(BigDecimal.class)
         );
     }
@@ -78,12 +80,17 @@ public class CosTest {
     }
 
     @Test
-    public void checkCalculationForPeriodic() {
+    public void checkCalculationForPeriod() {
         Cos cos = new Cos();
-        BigDecimal expected = new BigDecimal("-0.8797");
+        BigDecimal expected = new BigDecimal("-0.9900");
+        BigDecimal x = new BigDecimal("-3.0");
         assertEquals(
             expected,
-            cos.calculate(new BigDecimal("-543.0"), PRECISION)
+            cos.calculate(x, PRECISION)
+        );
+        assertEquals(
+            expected,
+            cos.calculate(x.add(new BigDecimal("2.0").multiply(PI)), PRECISION)
         );
     }
 }

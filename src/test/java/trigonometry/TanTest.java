@@ -50,12 +50,18 @@ public class TanTest {
     public void checkCalculationWithMockSinAndMockCos() {
         BigDecimal arg = new BigDecimal("5.0");
         when(
-            mockSin.calculate(eq(arg), any(BigDecimal.class))
+            mockSin.calculate(
+                eq(arg),
+                any(BigDecimal.class)
+            )
         ).thenReturn(
             new BigDecimal("-0.95892427")
         );
         when(
-            mockCos.calculate(eq(arg), any(BigDecimal.class))
+            mockCos.calculate(
+                eq(arg),
+                any(BigDecimal.class)
+            )
         ).thenReturn(
             new BigDecimal("0.28366218")
         );
@@ -68,8 +74,13 @@ public class TanTest {
     public void checkCalculationWithMockSin() {
         BigDecimal arg = new BigDecimal("5.0");
         when(
-            mockSin.calculate(eq(arg), any(BigDecimal.class))
-        ).thenReturn(new BigDecimal("-0.95892427"));
+            mockSin.calculate(
+                eq(arg),
+                any(BigDecimal.class)
+            )
+        ).thenReturn(
+            new BigDecimal("-0.95892427")
+        );
         Tan tan = new Tan(mockSin, new Cos());
         BigDecimal expectedResult = new BigDecimal("-3.3801");
         assertEquals(expectedResult, tan.calculate(arg, PRECISION));
@@ -78,8 +89,14 @@ public class TanTest {
     @Test
     public void checkCalculationWithMockCos() {
         BigDecimal arg = new BigDecimal("5.0");
-        when(mockCos.calculate(eq(arg), any(BigDecimal.class)))
-            .thenReturn(new BigDecimal("0.28366218"));
+        when(
+            mockCos.calculate(
+                eq(arg),
+                any(BigDecimal.class)
+            )
+        ).thenReturn(
+            new BigDecimal("0.28366218")
+        );
         Tan tan = new Tan(new Sin(), mockCos);
         BigDecimal expectedResult = new BigDecimal("-3.3804");
         assertEquals(expectedResult, tan.calculate(arg, PRECISION));
@@ -112,12 +129,17 @@ public class TanTest {
     }
 
     @Test
-    public void checkCalculationForPeriodic() {
+    public void checkCalculationForPeriod() {
         Tan tan = new Tan();
-        BigDecimal expected = new BigDecimal("-1.9101");
+        BigDecimal expected = new BigDecimal("0.1425");
+        BigDecimal x = new BigDecimal("-3.0");
         assertEquals(
             expected,
-            tan.calculate(new BigDecimal("134.0"), PRECISION)
+            tan.calculate(x, PRECISION)
+        );
+        assertEquals(
+            expected,
+            tan.calculate(x.add(PI), PRECISION)
         );
     }
 }

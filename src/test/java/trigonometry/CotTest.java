@@ -20,7 +20,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CotTest{
+public class CotTest {
+    private final BigDecimal PI = new BigDecimal(Math.PI);
     private static final BigDecimal PRECISION = new BigDecimal("0.0001");
     @Mock private Sin mockSin;
     @Mock private Cos mockCos;
@@ -133,12 +134,17 @@ public class CotTest{
     }
 
     @Test
-    public void checkCalculationForPeriodic() {
+    public void checkCalculationForPeriod() {
         Cot cot = new Cot();
-        BigDecimal expected = new BigDecimal("-0.5235");
+        BigDecimal expected = new BigDecimal("7.0163");
+        BigDecimal x = new BigDecimal("-3.0");
         assertEquals(
             expected,
-            cot.calculate(new BigDecimal("134.0"), PRECISION)
+            cot.calculate(x, PRECISION)
+        );
+        assertEquals(
+            expected,
+            cot.calculate(x.add(PI), PRECISION)
         );
     }
 }

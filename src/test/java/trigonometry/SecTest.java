@@ -13,14 +13,16 @@ import java.math.BigDecimal;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
+import static java.math.RoundingMode.HALF_EVEN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class SecTest {
+    private final BigDecimal PI = new BigDecimal(Math.PI);
     private static final BigDecimal PRECISION = new BigDecimal("0.0001");
     @Mock private Cos mockCos;
     @Spy
@@ -81,12 +83,27 @@ public class SecTest {
     }
 
     @Test
-    public void checkCalculationForPeriodic() {
+    public void checkNotCalculationForPiDividedByTwo() {
         Sec sec = new Sec();
-        BigDecimal expected = new BigDecimal("-2.2000");
+        BigDecimal arg = PI.divide(new BigDecimal("2.0"), HALF_EVEN);
+        assertThrows(
+            ArithmeticException.class,
+            () -> sec.calculate(arg, PRECISION)
+        );
+    }
+
+    @Test
+    public void checkCalculationForPeriod() {
+        Sec sec = new Sec();
+        BigDecimal expected = new BigDecimal("-2.4000");
+        BigDecimal x = new BigDecimal("-2.0");
         assertEquals(
             expected,
-            sec.calculate(new BigDecimal("134.0"), PRECISION)
+            sec.calculate(x, PRECISION)
+        );
+        assertEquals(
+            expected,
+            sec.calculate(x.add(new BigDecimal("2.0").multiply(PI)), PRECISION)
         );
     }
 }

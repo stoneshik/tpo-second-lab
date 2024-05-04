@@ -4,11 +4,15 @@ import lab.function.logariphmic.Ln;
 import lab.function.logariphmic.Log;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.stream.Stream;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
@@ -19,14 +23,14 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class LogTest {
-    private static final BigDecimal DEFAULT_PRECISION = new BigDecimal("0.0001");
+    private final BigDecimal PRECISION = new BigDecimal("0.0001");
     @Mock private Ln mockLn;
     @Spy private Ln spyLn;
 
     @Test
     public void checkCallFunction() {
         final Log log = new Log(spyLn, 5);
-        log.calculate(new BigDecimal(6), new BigDecimal("0.001"));
+        log.calculate(new BigDecimal("4.0"), new BigDecimal("0.001"));
         verify(
             spyLn,
             atLeastOnce()
@@ -38,13 +42,13 @@ public class LogTest {
 
     @Test
     public void checkCalculationWithLnMock() {
-        BigDecimal arg = new BigDecimal("126.0");
+        BigDecimal arg = new BigDecimal("10.0");
         when(
             mockLn.calculate(
-                eq(new BigDecimal("126.0")),
+                eq(new BigDecimal("10.0")),
                 any(BigDecimal.class)
             )
-        ).thenReturn(new BigDecimal("4.8362819"));
+        ).thenReturn(new BigDecimal("2.302584851"));
         when(
             mockLn.calculate(
                 eq(new BigDecimal(5)),
@@ -52,7 +56,7 @@ public class LogTest {
             )
         ).thenReturn(new BigDecimal("1.6094379"));
         Log log = new Log(mockLn, 5);
-        BigDecimal expected = new BigDecimal("3.004951");
+        BigDecimal expected = new BigDecimal("1.430676");
         assertEquals(
             expected,
             log.calculate(arg, new BigDecimal("0.000001"))
@@ -61,29 +65,36 @@ public class LogTest {
 
     @Test
     public void checkNotCalculationForZero() {
-        final Log log = new Log(5);
+        Log log = new Log(5);
         assertThrows(
             ArithmeticException.class,
-            () -> log.calculate(ZERO, DEFAULT_PRECISION)
+            () -> log.calculate(ZERO, PRECISION)
         );
     }
 
     @Test
     public void checkCalculationForOne() {
-        final Log log = new Log(5);
+        Log log = new Log(5);
         assertEquals(
-            ZERO.setScale(DEFAULT_PRECISION.scale(), HALF_EVEN),
-            log.calculate(ONE, DEFAULT_PRECISION)
+            ZERO.setScale(PRECISION.scale(), HALF_EVEN),
+            log.calculate(ONE, PRECISION)
         );
     }
 
-    @Test
-    public void checkCalculationForPositive() {
+    @ParameterizedTest
+    @MethodSource("provideParamsForCheckCalculation")
+    public void checkCalculationForPositive(BigDecimal x, BigDecimal expected) {
         Log log = new Log(5);
-        BigDecimal expected = new BigDecimal("2.4663");
         assertEquals(
             expected,
-            log.calculate(new BigDecimal("53.0"), DEFAULT_PRECISION)
+            log.calculate(x, PRECISION)
+        );
+    }
+
+    private static Stream<Arguments> provideParamsForCheckCalculation() {
+        return Stream.of(
+            Arguments.of(new BigDecimal("0.4"), new BigDecimal("-0.5694")),
+            Arguments.of(new BigDecimal("1.2"), new BigDecimal("0.1134"))
         );
     }
 }
